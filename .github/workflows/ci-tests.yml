@@ -1,0 +1,50 @@
+name: Ecommerce Automation CI
+on:
+  push:
+    branches: [ main, development ]
+  pull_request:
+    branches: [ main, development ]
+  workflow_dispatch:
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; else pip install pytest selenium webdriver-manager allure-pytest; fi
+
+      - name: Install Google Chrome
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y xvfb
+          sudo apt-get install -y google-chrome-stable || sudo apt-get install -y chromium-browser
+
+      - name: Set display for GUI tests
+        run: |
+          echo "DISPLAY=:99" >> $GITHUB_ENV
+          Xvfb :99 -screen 0 1920x1080x24 > /dev/null 2>&1 &
+
+      - name: Run pytest suite
+        run: |
+          export PYTHONPATH=$PYTHONPATH:$(pwd)
+          pytest Ecommerce_automation/tests \
+            --alluredir=Ecommerce_automation/reports/allure-results \
+            -v -s
+
+      - name: Upload Allure results as artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-results
+          path: Ecommerce_automation/reports/allure-results
