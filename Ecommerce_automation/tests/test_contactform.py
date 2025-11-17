@@ -1,4 +1,5 @@
-from pages.contact_page import ContactPage
+from Ecommerce_automation.pages.contact_page import ContactPage
+
 import time
 def test_contact_form(driver, base_url):
     contact = ContactPage(driver)

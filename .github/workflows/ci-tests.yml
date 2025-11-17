@@ -23,8 +23,8 @@ jobs:
           python -m pip install --upgrade pip
           pip install pytest selenium webdriver-manager pyyaml allure-pytest
 
-      - name: Run tests
+      - name: Run tests (headless)
         working-directory: Ecommerce_automation
         run: |
           export PYTHONPATH=$PYTHONPATH:$(pwd)
-          pytest -v -s
+          pytest -v -s --headless
