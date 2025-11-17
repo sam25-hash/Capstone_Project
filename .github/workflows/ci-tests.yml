@@ -1,34 +1,30 @@
-name: Simple Pytest CI
+name: Run Headless Selenium Test
 
 on:
   push:
-    branches: [ main ]
-  workflow_dispatch:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
 
 jobs:
-  tests:
+  run-headless-test:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+    - name: Checkout repository
+      uses: actions/checkout@v3
 
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.11'
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
 
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install pytest selenium webdriver-manager pyyaml allure-pytest
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r Ecommerce_automation/requirements.txt
 
-      - name: Run tests (headless, skip unstable files)
-        working-directory: Ecommerce_automation
-        run: |
-          export PYTHONPATH=$PYTHONPATH:$(pwd)
-          pytest -v -s --headless tests \
-            --ignore=tests/test_addtocart.py \
-            --ignore=tests/test_homepage.py \
-            --ignore=tests/test_allclicks.py \
-            --ignore=tests/test_addcart.py
+    - name: Run headless Selenium test
+      run: python headless_test.py
