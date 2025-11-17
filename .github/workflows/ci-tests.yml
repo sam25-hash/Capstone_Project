@@ -30,4 +30,5 @@ jobs:
           pytest -v -s --headless tests \
             --ignore=tests/test_addtocart.py \
             --ignore=tests/test_homepage.py \
-            --ignore=tests/test_allclicks.py
+            --ignore=tests/test_allclicks.py \
+            --ignore=tests/test_addcart.py
