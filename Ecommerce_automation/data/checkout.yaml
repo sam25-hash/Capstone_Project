@@ -1,0 +1,16 @@
+checkout_data:
+  - name: "John Doe"
+    email: "john.doe@example.com"
+    address: "123 Main Street"
+    city: "Mumbai"
+    card_no: "4111111111111111"
+    exp: "12/28"
+    cvv: "123"
+
+  - name: "Sarah Parker"
+    email: "sarah.parker@example.com"
+    address: "45 Green Valley Complex"
+    city: "Pune"
+    card_no: "5555555555554444"
+    exp: "10/27"
+    cvv: "456"
